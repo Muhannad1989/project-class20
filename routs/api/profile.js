@@ -57,7 +57,6 @@ router.post(
       githubusername,
       skills,
       facebook,
-      youtube,
       twitter,
       linkedin,
     } = request.body;
@@ -79,7 +78,6 @@ router.post(
     // social
     profileFields.social = {};
     if (facebook) profileFields.social.facebook = facebook;
-    if (youtube) profileFields.social.youtube = youtube;
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (twitter) profileFields.social.twitter = twitter;
 
@@ -109,5 +107,48 @@ router.post(
     }
   },
 );
+
+// @route           GET api/profile
+// @description     Get all Profiles
+// @access          Public
+
+router.get('/', auth, async (request, response) => {
+  try {
+    const profiles = await Profiles.find({ user: request.user.id }).populate('user', [
+      'name',
+      'avatar',
+    ]);
+    if (!profiles) {
+      return response.status(400).json({ error: 'There is no profile for this user' });
+    }
+    response.json(profiles);
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).send('Server Error');
+  }
+});
+
+// @route           GET api/profile/user/:user_id
+// @description     Get all Profile
+// @access          Public
+
+router.get('/user/:user_id', auth, async (request, response) => {
+  try {
+    const profile = await Profiles.findOne({ user: request.params.user_id }).populate('user', [
+      'name',
+      'avatar',
+    ]);
+    if (!profile) {
+      return response.status(400).json({ error: 'Profile not found' });
+    }
+    response.json(profile);
+  } catch (error) {
+    // tow kinds of error. Invalid id or server
+    if (error.kind == 'ObjectId') {
+      return response.status(400).json({ error: 'Profile not found' });
+    }
+    response.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
