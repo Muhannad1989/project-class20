@@ -211,7 +211,7 @@ router.put(
   },
 );
 
-// @route           GET api/profile/user/:user_id
+// @route           GET api/profile/user/:exp_id
 // @description     Delete Experience from profile
 // @access          Private
 
@@ -219,6 +219,64 @@ router.delete('/experience/:exp_id', auth, async (request, response) => {
   try {
     const profile = await Profile.findOne({ user: request.params.id });
     const removeIndex = profile.experience.map(item => item.id).indexOf(request.params.exp_id);
+    profile.splice(removeIndex, 1);
+    await profile.save();
+    response.json(profile);
+  } catch (error) {
+    response.status(500).send('Server Error');
+  }
+});
+
+// @route           PUT api/profile/education
+// @description     Add profile education
+// @access          Private
+
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is requierd')
+        .not()
+        .isEmpty(),
+      check('degree', 'Degree is requierd')
+        .not()
+        .isEmpty(),
+      check('fieldofstudy', 'Field of study is requierd')
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (request, response) => {
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(404).json({ errors: errors.array() });
+    }
+
+    const { school, degree, fieldofstudy, from, to, current, description } = request.body;
+
+    const newEdu = { school, degree, fieldofstudy, from, to, current, description };
+    try {
+      const profile = await Profile.findOne({ user: request.user.id });
+
+      // add new data
+      profile.education.unshift(newEdu);
+      await profile.save();
+      response.json(profile);
+    } catch (error) {
+      response.status(500).send('Server Error');
+    }
+  },
+);
+
+// @route           GET api/profile/user/:edu_id
+// @description     Delete Education from profile
+// @access          Private
+
+router.delete('/education/:edu_id', auth, async (request, response) => {
+  try {
+    const profile = await Profile.findOne({ user: request.params.id });
+    const removeIndex = profile.education.map(item => item.id).indexOf(request.params.edu_id);
     profile.splice(removeIndex, 1);
     await profile.save();
     response.json(profile);
