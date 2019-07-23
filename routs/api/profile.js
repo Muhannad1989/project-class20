@@ -199,7 +199,7 @@ router.put(
 
     const newExp = { title, company, location, from, to, current, description };
     try {
-      const profile = await Profile().findOne({ user: request.user.id });
+      const profile = await Profile.findOne({ user: request.user.id });
 
       // add new data
       profile.experience.unshift(newExp);
@@ -210,5 +210,21 @@ router.put(
     }
   },
 );
+
+// @route           GET api/profile/user/:user_id
+// @description     Delete Experience from profile
+// @access          Private
+
+router.delete('/experience/:exp_id', auth, async (request, response) => {
+  try {
+    const profile = await Profile.findOne({ user: request.params.id });
+    const removeIndex = profile.experience.map(item => item.id).indexOf(request.params.exp_id);
+    profile.splice(removeIndex, 1);
+    await profile.save();
+    response.json(profile);
+  } catch (error) {
+    response.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
