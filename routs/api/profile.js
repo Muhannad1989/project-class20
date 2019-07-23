@@ -114,7 +114,7 @@ router.post(
 
 router.get('/', auth, async (request, response) => {
   try {
-    const profiles = await Profiles.find({ user: request.user.id }).populate('user', [
+    const profiles = await Profile.find({ user: request.user.id }).populate('user', [
       'name',
       'avatar',
     ]);
@@ -134,7 +134,7 @@ router.get('/', auth, async (request, response) => {
 
 router.get('/user/:user_id', auth, async (request, response) => {
   try {
-    const profile = await Profiles.findOne({ user: request.params.user_id }).populate('user', [
+    const profile = await Profile.findOne({ user: request.params.user_id }).populate('user', [
       'name',
       'avatar',
     ]);
@@ -150,5 +150,65 @@ router.get('/user/:user_id', auth, async (request, response) => {
     response.status(500).send('Server Error');
   }
 });
+
+// @route           DELETE api/profile
+// @description     DELETE profile, user & posts
+// @access          Private
+
+router.delete('/', auth, async (request, response) => {
+  try {
+    // remove profile
+    await Profile.findOneAndRemove({ user: request.user.id });
+
+    // remove user
+    await User.findOneAndRemove({ _id: request.user.id });
+
+    response.json({ msg: 'User deleted' });
+  } catch (error) {
+    response.status(500).send('Server Error');
+  }
+});
+
+// @route           PUT api/profile/experience
+// @description     Add profile experience
+// @access          Private
+
+router.put(
+  '/experience',
+  [
+    auth,
+    [
+      check('title', 'Title is requierd')
+        .not()
+        .isEmpty(),
+      check('company', 'Company is requierd')
+        .not()
+        .isEmpty(),
+      check('from', 'from is requierd')
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (request, response) => {
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      return response.status(404).json({ errors: errors.array() });
+    }
+
+    const { title, company, location, from, to, current, description } = request.body;
+
+    const newExp = { title, company, location, from, to, current, description };
+    try {
+      const profile = await Profile().findOne({ user: request.user.id });
+
+      // add new data
+      profile.experience.unshift(newExp);
+      await profile.save();
+      response.json(profile);
+    } catch (error) {
+      response.status(500).send('Server Error');
+    }
+  },
+);
 
 module.exports = router;
