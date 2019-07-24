@@ -12,10 +12,10 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // Define routes
-app.use('/api/users', require('./routs/api/users'));
-app.use('/api/profile', require('./routs/api/profile'));
-app.use('/api/posts', require('./routs/api/posts'));
-app.use('/api/auth', require('./routs/api/auth'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/profile', require('./routes/api/profile'));
+app.use('/api/posts', require('./routes/api/posts'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 // For test
 app.get('/', (request, response) => {
