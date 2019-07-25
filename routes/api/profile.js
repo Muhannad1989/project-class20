@@ -57,9 +57,11 @@ router.post(
       bio,
       status,
       githubusername,
-      skills,
+      skills, // this is array
       facebook,
+      youtube,
       twitter,
+      instagram,
       linkedin,
     } = request.body;
 
@@ -79,13 +81,15 @@ router.post(
 
     // social
     profileFields.social = {};
+    if (youtube) profileFields.social.youtube = youtube;
     if (facebook) profileFields.social.facebook = facebook;
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (twitter) profileFields.social.twitter = twitter;
+    if (instagram) profileFields.social.instagram = instagram;
 
     // build profile object
     try {
-      let profile = await profile.findOne({ user: request.user.id });
+      let profile = await Profile.findOne({ user: request.user.id });
 
       if (profile) {
         // Update
@@ -116,10 +120,7 @@ router.post(
 
 router.get('/', auth, async (request, response) => {
   try {
-    const profiles = await Profile.find({ user: request.user.id }).populate('user', [
-      'name',
-      'avatar',
-    ]);
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
     if (!profiles) {
       return response.status(400).json({ error: 'There is no profile for this user' });
     }
@@ -141,7 +142,7 @@ router.get('/user/:user_id', auth, async (request, response) => {
       'avatar',
     ]);
     if (!profile) {
-      return response.status(400).json({ error: 'Profile not found' });
+      return response.status(400).json({ msg: 'There is no profile for this user' });
     }
     response.json(profile);
   } catch (error) {
@@ -157,7 +158,7 @@ router.get('/user/:user_id', auth, async (request, response) => {
 // @description     DELETE profile, user & posts
 // @access          Private
 
-router.delete('/', auth, async (request, response) => {
+router.delete('/:id', auth, async (request, response) => {
   try {
     // remove profile
     await Profile.findOneAndRemove({ user: request.user.id });
@@ -187,7 +188,7 @@ router.put(
       check('company', 'Company is requierd')
         .not()
         .isEmpty(),
-      check('from', 'from is requierd')
+      check('from', 'From is requierd')
         .not()
         .isEmpty(),
     ],
@@ -215,17 +216,20 @@ router.put(
   },
 );
 
-// @route           GET api/profile/user/:exp_id
+// @route           GET api/profile/:exp_id
 // @description     Delete Experience from profile
 // @access          Private
 
 router.delete('/experience/:exp_id', auth, async (request, response) => {
   try {
-    const profile = await Profile.findOne({ user: request.params.id });
+    const profile = await Profile.findOne({ user: request.user.id });
+
+    // Get remote index
     const removeIndex = profile.experience.map(item => item.id).indexOf(request.params.exp_id);
-    profile.splice(removeIndex, 1);
+    profile.experience.splice(removeIndex, 1);
     await profile.save();
     response.json(profile);
+    console.error('hello');
   } catch (error) {
     console.error(error.message);
     response.status(500).send('Server Error');
@@ -285,7 +289,6 @@ router.delete('/education/:edu_id', auth, async (request, response) => {
     const removeIndex = profile.education.map(item => item.id).indexOf(request.params.edu_id);
     profile.splice(removeIndex, 1);
     await profile.save();
-    response.json(profile);
   } catch (error) {
     console.error(error.message);
     response.status(500).send('Server Error');

@@ -7,7 +7,12 @@ const connectDB = async () => {
     // autoIndex: false
     // useCreateIndexes:true
     // createIndexes:true
-    await mongoose.connect(db, { useNewUrlParser: true, autoIndex: false });
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      autoIndex: false,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    });
     console.log(`DB Connected ...`);
   } catch (error) {
     console.error(`error : ${error.message} `);

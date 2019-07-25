@@ -53,7 +53,7 @@ const ProfileSchema = new mongoose.Schema({
         default: false,
       },
       description: {
-        type: Date,
+        type: String,
       },
     },
   ],
@@ -66,6 +66,7 @@ const ProfileSchema = new mongoose.Schema({
       },
       degree: {
         type: String,
+        required: true,
       },
       fieldofstudy: {
         type: String,
@@ -83,7 +84,7 @@ const ProfileSchema = new mongoose.Schema({
         default: false,
       },
       description: {
-        type: Date,
+        type: String,
       },
     },
   ],
@@ -98,6 +99,9 @@ const ProfileSchema = new mongoose.Schema({
       type: String,
     },
     linkedin: {
+      type: String,
+    },
+    instagram: {
       type: String,
     },
   },
