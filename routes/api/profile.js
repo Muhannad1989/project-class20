@@ -220,19 +220,38 @@ router.put(
 // @description     Delete Experience from profile
 // @access          Private
 
-router.delete('/experience/:exp_id', auth, async (request, response) => {
-  try {
-    const profile = await Profile.findOne({ user: request.user.id });
+// router.delete('/experience/:exp_id', auth, async (request, response) => {
+//   try {
+//     const profile = await Profile.findOne({ user: request.user.id });
 
-    // Get remote index
-    const removeIndex = profile.experience.map(item => item.id).indexOf(request.params.exp_id);
-    profile.experience.splice(removeIndex, 1);
-    await profile.save();
-    response.json(profile);
-    console.error('hello');
+//     // Get remote index
+//     const removeIndex = profile.experience.map(item => item.id).indexOf(request.params.exp_id);
+
+//     profile.experience.splice(removeIndex, 1);
+//     await profile.save();
+//     response.json(profile);
+//   } catch (error) {
+//     console.error(error.message);
+//     response.status(500).send('Server Error');
+//   }
+// });
+
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    const removeIndex = foundProfile.experience
+      .map(exp => exp._id.toString())
+      .indexOf(req.params.exp_id);
+    if (removeIndex === -1) {
+      return res.status(500).json({ msg: 'Server error' });
+    } else {
+      foundProfile.experience.splice(removeIndex, 1);
+      await foundProfile.save();
+      return res.status(200).json(foundProfile);
+    }
   } catch (error) {
-    console.error(error.message);
-    response.status(500).send('Server Error');
+    console.error(error);
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -283,15 +302,22 @@ router.put(
 // @description     Delete Education from profile
 // @access          Private
 
-router.delete('/education/:edu_id', auth, async (request, response) => {
+router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: request.params.id });
-    const removeIndex = profile.education.map(item => item.id).indexOf(request.params.edu_id);
-    profile.splice(removeIndex, 1);
-    await profile.save();
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    const removeIndex = foundProfile.education
+      .map(edu => edu._id.toString())
+      .indexOf(req.params.edu_id);
+    if (removeIndex === -1) {
+      return res.status(500).json({ msg: 'Server error' });
+    } else {
+      foundProfile.education.splice(removeIndex, 1);
+      await foundProfile.save();
+      return res.status(200).json(foundProfile);
+    }
   } catch (error) {
-    console.error(error.message);
-    response.status(500).send('Server Error');
+    console.error(error);
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
