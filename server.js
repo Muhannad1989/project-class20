@@ -16,11 +16,6 @@ app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/auth', require('./routes/api/auth'));
 
-// For test
-app.get('/', (request, response) => {
-  response.status(200).send('Api Running');
-});
-
 const PORT = process.env.PORT || config.get('port');
 
 app.listen(PORT, () => {
