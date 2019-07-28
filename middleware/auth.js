@@ -19,7 +19,7 @@ module.exports = function(request, response, next) {
     // iat: 1564295581,
     // exp: 1564655581 }
 
-    // inject the request to with user object
+    // inject the request with user object which has an payload => ID
     request.user = decoded.user;
 
     // passing to the next functions

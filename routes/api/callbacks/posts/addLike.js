@@ -9,6 +9,7 @@ module.exports = addLike = async (request, response) => {
     // go to post => likes
     // match logged user with the same id as params
     // if has the length bigger than 0 that means "is already exsist"
+
     if (post.likes.filter(like => like.user.toString() === request.user.id).length > 0) {
       return response.status(400).json({ msg: 'Post already liked' });
     }

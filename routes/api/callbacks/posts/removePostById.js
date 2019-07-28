@@ -17,7 +17,7 @@ module.exports = removePostById = async (request, response) => {
     if (post.user.toString() !== request.user.id) {
       return response.json({ msg: 'User not authorized' });
     }
-    // await post.remove();
+    await post.remove();
     response.json({ msg: 'Post is Removed' });
   } catch (err) {
     if (err.kind == 'ObjectId') {
