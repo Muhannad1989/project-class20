@@ -14,9 +14,9 @@ const router = express.Router();
 router.get('/', auth, getUserProfile);
 
 // singin
-// @route           GET api/auth
-// @description     Register user
-// @access          Public
+// @route           POST api/auth
+// @description     Singin user
+// @access          Private
 
 router.post(
   '/',

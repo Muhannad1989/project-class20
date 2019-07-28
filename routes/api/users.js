@@ -59,6 +59,7 @@ router.post(
       const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
+      console.log(user.password);
       await user.save();
 
       // Return jsonwebtoken
@@ -68,6 +69,8 @@ router.post(
         },
       };
 
+      // console.log(payload);
+      // kind of compiler for id to token
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         if (err) throw error;
         response.status(200).send({ token });

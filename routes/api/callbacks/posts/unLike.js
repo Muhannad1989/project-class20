@@ -1,4 +1,4 @@
-const Post = require('../posts');
+const Post = require('../../../../models/Post');
 
 module.exports = unLike = async (request, response) => {
   try {

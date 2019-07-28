@@ -1,8 +1,8 @@
-const Post = require('../../../models/Post');
-const User = require('../../../models/User');
+const Post = require('../../../../models/Post');
+const User = require('../../../../models/User');
 const { validationResult } = require('express-validator');
 
-module.exports = addPost = async (request, response) => {
+module.exports = async (request, response) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
     return response.status(404).json({ errors: errors.array() });
@@ -20,5 +20,4 @@ module.exports = addPost = async (request, response) => {
   } catch (err) {
     response.send('Server Error');
   }
-  response.status(200).send('Posts route');
 };

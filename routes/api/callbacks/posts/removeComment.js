@@ -1,4 +1,4 @@
-const Post = require('../../../models/Post');
+const Post = require('../../../../models/Post');
 
 module.exports = removeComment = async (request, response) => {
   try {

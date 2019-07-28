@@ -1,4 +1,4 @@
-const Post = require('../../../models/Post');
+const Post = require('../../../../models/Post');
 
 module.exports = addLike = async (request, response) => {
   try {
