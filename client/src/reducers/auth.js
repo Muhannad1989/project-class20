@@ -16,6 +16,7 @@ const initialState = {
   user: null,
 };
 
+// change initial State according to different cases ('types': which is as a key between functions('action') ans cases('reducer') )
 export default function(state = initialState, action) {
   const { type, payload } = action;
 

@@ -7,9 +7,10 @@ import { getProfiles } from '../../actions/profile';
 import ProfileItem from './ProfileItem';
 
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
+  // as soon as this page get loaded we gonna have profiles
   useEffect(() => {
     getProfiles();
-  }, [getProfiles]);
+  }, []);
   return (
     <Fragment>
       {loading ? (
@@ -35,7 +36,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
 };
 
 Profiles.propTypes = {
-  getProfile: PropTypes.func.isRequired,
+  getProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
