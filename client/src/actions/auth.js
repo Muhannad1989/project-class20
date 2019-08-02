@@ -14,6 +14,7 @@ import setAuthToken from '../utils/setAuthToken';
 
 // Loaded User
 export const loadUser = () => async dispatch => {
+  // checking the token inside the header
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -21,7 +22,7 @@ export const loadUser = () => async dispatch => {
     const res = await axios.get('/api/auth');
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: res.data, // the user self
     });
   } catch (err) {
     dispatch({
@@ -44,7 +45,7 @@ export const register = ({ name, email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-    // dispatch(loaderUser());
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -70,7 +71,7 @@ export const login = (email, password) => async dispatch => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    // dispatch(loaderUser());
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

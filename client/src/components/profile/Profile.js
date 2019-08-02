@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+  }, [getProfileById]);
   return (
     <Fragment>
       {profile === null || loading ? (

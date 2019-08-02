@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { addExperience } from './../../actions/profile';
 
 const AddExperience = ({ addExperience, history }) => {
@@ -120,9 +120,9 @@ const AddExperience = ({ addExperience, history }) => {
           />
         </div>
         <input type="submit" class="btn btn-primary my-1" />
-        <a class="btn btn-light my-1" href="dashboard.html">
+        <Link class="btn btn-light my-1" to="/dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );

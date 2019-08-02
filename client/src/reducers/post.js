@@ -1,5 +1,4 @@
 import {
-import { addComment } from './../actions/post';
   GET_POSTS,
   POST_ERROR,
   UPDATE_LIKES,
@@ -59,19 +58,19 @@ export default function(state = initState, action) {
         ),
         loading: false,
       };
-      case ADD_COMMENT:
-          return {
-            ...state,
-            post: { ...state.post , comments:payload},
-            loading: false,
-          };
-      case REMOVE_COMMENT:
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: payload },
+        loading: false,
+      };
+    case REMOVE_COMMENT:
       return {
         ...state,
         post: {
-          comments : state.post.comments.filter((comment => comment._id !==  payload)),
+          comments: state.post.comments.filter(comment => comment._id !== payload),
           loading: false,
-        } 
+        },
       };
 
     default:

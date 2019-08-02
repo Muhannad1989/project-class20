@@ -23,19 +23,19 @@ export default function(state = initialState, action) {
     case UPDATE_PROFILE:
       return {
         ...state,
-        profiles: payload,
+        profile: payload,
         loading: false,
       };
     case GET_PROFILES:
       return {
         ...state,
-        profile: payload,
+        profiles: payload,
         loading: false,
       };
     case PROFILE_ERROR:
       return {
         ...state,
-        profile: payload,
+        error: payload,
         loading: false,
       };
     case CLEAR_PROFILE:
@@ -51,7 +51,6 @@ export default function(state = initialState, action) {
         repos: payload,
         loading: false,
       };
-
     default:
       return state;
   }

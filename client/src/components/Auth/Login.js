@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { login } from '../../actions/auth';
 
 const Login = ({ login, isAuthenticated }) => {
@@ -19,7 +20,7 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  // Redirect if logged in
+  // check (logged) isAuthenticated to Redirect
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
@@ -61,10 +62,12 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-Login.prototype = {
+Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
+
+// use isAuthenticated to create redirect based on it
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
