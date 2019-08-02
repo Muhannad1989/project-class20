@@ -22,9 +22,10 @@ export default function(state = initState, action) {
     case GET_POSTS:
       return {
         ...state,
-        post: payload,
+        posts: payload,
         loading: false,
       };
+
     case GET_POST:
       return {
         ...state,
@@ -52,9 +53,8 @@ export default function(state = initState, action) {
     case UPDATE_LIKES:
       return {
         ...state,
-        // loop throw the posts and git matched id and minublate it otherwise return the regular
         posts: state.posts.map(post =>
-          post._id === payload.id ? { ...state, Linkes: payload.like } : post,
+          post._id === payload.id ? { ...post, likes: payload.likes } : post,
         ),
         loading: false,
       };
@@ -68,6 +68,7 @@ export default function(state = initState, action) {
       return {
         ...state,
         post: {
+          ...state.post,
           comments: state.post.comments.filter(comment => comment._id !== payload),
           loading: false,
         },

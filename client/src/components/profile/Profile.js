@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById]);
+  }, [getProfileById, match.params.id]);
   return (
     <Fragment>
       {profile === null || loading ? (
@@ -25,14 +25,17 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
           <Link to="/profile" className="btn btn-light">
             Link to Profile
           </Link>
-          {auth.isAuthenticated && auth.loading === false && auth.user._id === profile.user._id && (
-            <Link to="/edit-profile" className="btn btn-dark">
-              Edit Profile
-            </Link>
-          )}
+          {auth.isAuthenticated &&
+            auth.loading === false &&
+            auth.user.user._id === profile.user._id && (
+              <Link to="/edit-profile" className="btn btn-dark">
+                Edit Profile
+              </Link>
+            )}
           <div className="profile-grid my-1">
-            <ProfileTop />
-            <ProfileAbout />
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
+
             <div className="profile-exp bg-white p-2">
               <h2 className="text-primary">Experience</h2>
               {profile.experience.length > 0 ? (
@@ -45,7 +48,8 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                 <h3>No Experience credentails</h3>
               )}
             </div>
-            <div className="profile-exp bg-white p-2">
+
+            <div className="profile-edu bg-white p-2">
               <h2 className="text-primary">Education</h2>
               {profile.education.length > 0 ? (
                 <Fragment>
@@ -57,6 +61,7 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                 <h3>No Experience credentails</h3>
               )}
             </div>
+
             {profile.githubusername && <ProfileGithub username={profile.githubusername} />}
           </div>
         </Fragment>
@@ -70,7 +75,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
-  profiel: state.profile,
+  profile: state.profile,
   auth: state.auth,
 });
 export default connect(

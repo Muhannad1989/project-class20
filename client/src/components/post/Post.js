@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PostItem from './../posts/PostItem';
 import { getPost } from './../../actions/post';
-import { deleteEducation } from './../../actions/profile';
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
@@ -12,7 +11,7 @@ import CommentItem from './CommentItem';
 const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
-  }, [getPost(match.params.id)]);
+  }, [getPost, match.params.id]);
   return loading || post === null ? (
     <Spinner />
   ) : (

@@ -47,13 +47,13 @@ router.post(
 // @description     Get all Profiles
 // @access          Public
 
-router.get('/', auth, getAllProfiles);
+router.get('/', getAllProfiles);
 
 // @route           GET api/profile/user/:user_id
 // @description     Get Profile by ID
 // @access          Public
 
-router.get('/user/:user_id', auth, getProfileById);
+router.get('/user/:user_id', getProfileById);
 
 // @route           DELETE api/profile
 // @description     DELETE profile, user & posts
