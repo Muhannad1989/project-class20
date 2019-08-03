@@ -55,10 +55,6 @@ const ProfileTop = ({
             <i className="fab fa-instagram fa-2x" />
           </a>
         )}
-
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-glob fa-2x" />
-        </a>
       </div>
     </div>
   );

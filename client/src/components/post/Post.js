@@ -12,6 +12,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
   useEffect(() => {
     getPost(match.params.id);
   }, [getPost, match.params.id]);
+
   return loading || post === null ? (
     <Spinner />
   ) : (
@@ -32,6 +33,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
 
 Post.propTypes = {
   getPost: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
   post: state.post,

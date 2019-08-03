@@ -11,7 +11,7 @@ const PostItem = ({
   deletePost,
   auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
-  showActions,
+  showActions, // condition to reuse this component individual post 'Discussion '
 }) => (
   <div className="post bg-white p-1 my-1">
     <div>
