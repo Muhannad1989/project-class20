@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PostItem from './../posts/PostItem';
 import { getPost } from './../../actions/post';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
 
-const Post = ({ getPost, post: { post, loading }, match }) => {
+// add history to redirect to posts when something wrong
+const Post = ({ getPost, history, post: { post, loading }, match }) => {
   useEffect(() => {
-    getPost(match.params.id);
-  }, [getPost, match.params.id]);
+    getPost(match.params.id, history);
+  }, [getPost, match.params.id, history]);
 
   return loading || post === null ? (
     <Spinner />
@@ -41,4 +42,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getPost },
-)(Post);
+)(withRouter(Post));

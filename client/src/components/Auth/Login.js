@@ -38,7 +38,7 @@ const Login = ({ login, isAuthenticated }) => {
             name="email"
             value={email}
             onChange={e => handelChange(e)}
-            // required
+            required
           />
         </div>
         <div className="form-group">
@@ -49,7 +49,7 @@ const Login = ({ login, isAuthenticated }) => {
             minLength="6"
             value={password}
             onChange={e => handelChange(e)}
-            // minLength='6'
+            required
           />
         </div>
 

@@ -102,7 +102,8 @@ export const addPost = formData => async dispatch => {
 };
 
 // Get post by Id
-export const getPost = id => async dispatch => {
+// add (history) to redirect when something wrong
+export const getPost = (id, history) => async dispatch => {
   try {
     const res = await axios.get(`/api/posts/${id}`);
     dispatch({
@@ -114,6 +115,13 @@ export const getPost = id => async dispatch => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+
+    if (POST_ERROR) {
+      history.push('/posts');
+    }
+
+    // display error
+    dispatch(setAlert('Something wert wrong', 'danger'));
   }
 };
 

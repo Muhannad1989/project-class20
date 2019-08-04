@@ -82,6 +82,7 @@ export const login = (email, password) => async dispatch => {
     dispatch({
       type: LOGIN_FAIL,
     });
+    dispatch(setAlert('password or email not valid', 'danger'));
   }
 };
 // Logout and clear

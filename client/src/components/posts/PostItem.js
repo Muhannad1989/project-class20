@@ -45,6 +45,9 @@ const PostItem = ({
               <i className="fas fa-times" />
             </button>
           )}
+          {/* <button type="button" className="btn btn-success">
+            Share <i className="fas fa-share" />
+          </button> */}
         </Fragment>
       )}
     </div>
