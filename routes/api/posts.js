@@ -6,8 +6,11 @@ const addPost = require('./callbacks/posts/addPost');
 const getAllPosts = require('./callbacks/posts/getAllPosts');
 const getPostById = require('./callbacks/posts/getPostById');
 const removePostById = require('./callbacks/posts/removePostById');
+
 const addLike = require('./callbacks/posts/addLike');
 const unLike = require('./callbacks/posts/unLike');
+const addAndRemoveLike = require('./callbacks/posts/addAndRemoveLike');
+
 const addComment = require('./callbacks/posts/addComment');
 const removeComment = require('./callbacks/posts/removeComment');
 
@@ -48,17 +51,23 @@ router.get('/:id', auth, getPostById);
 
 router.delete('/:id', auth, removePostById);
 
+// @route           Update api/posts/toggle-like/:id
+// @description     Add/Remove Like to post by ID
+// @access          Private
+
+router.put('/like/:id', auth, addAndRemoveLike);
+
 // @route           Update api/posts/like/:id
 // @description     Add Like to post by ID
 // @access          Private
 
-router.put('/like/:id', auth, addLike);
+// router.put('/like/:id', auth, addLike);
 
 // @route           Update api/posts/unlike/:id
 // @description     Unlike post
 // @access          Private
 
-router.put('/unlike/:id', auth, unLike);
+// router.put('/unlike/:id', auth, unLike);
 
 // @route           POST api/comment/:id /*here the means the post*/
 // @description     Add comment
