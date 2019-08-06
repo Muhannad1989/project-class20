@@ -7,6 +7,8 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  EDIT_POST,
+  EDIT_ERROR,
 } from './../actions/types';
 
 const initState = {
@@ -14,11 +16,34 @@ const initState = {
   post: null,
   loading: true,
   error: {},
+  edit: false,
+  displayForm: false,
 };
 
 export default function(state = initState, action) {
   const { payload, type } = action;
   switch (type) {
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [payload, ...state.posts], // add new post (payload)
+        loading: false,
+      };
+
+    case EDIT_POST:
+      return {
+        ...state,
+        post: payload,
+        loading: false,
+        edit: true,
+      };
+    case EDIT_ERROR:
+      return {
+        ...state,
+        post: payload,
+        loading: false,
+        edit: false,
+      };
     case GET_POSTS:
       return {
         ...state,
@@ -32,12 +57,7 @@ export default function(state = initState, action) {
         post: payload,
         loading: false,
       };
-    case ADD_POST:
-      return {
-        ...state,
-        posts: [payload, ...state.posts], // add new post (payload)
-        loading: false,
-      };
+
     case DELETE_POST:
       return {
         ...state,

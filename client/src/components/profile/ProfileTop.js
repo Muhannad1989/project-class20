@@ -23,13 +23,13 @@ const ProfileTop = ({
       <div className="icons my-1">
         {website && (
           <a href={website} target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-globe fa-2x" />
+            <i className="fab fa-chrome fa-2x" />
           </a>
         )}
 
         {social && social.twitter && (
           <a href={social.twitter} target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-globe fa-2x" />
+            <i className="fab fa-twitter fa-2x" />
           </a>
         )}
 

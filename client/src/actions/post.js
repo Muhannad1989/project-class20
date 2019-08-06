@@ -10,6 +10,8 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  EDIT_POST,
+  EDIT_ERROR,
 } from './types';
 
 // Get Post
@@ -23,6 +25,27 @@ export const getPosts = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const editPost = newPost => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  try {
+    const res = await axios.post(`/api/posts`, newPost, config);
+    dispatch({
+      type: EDIT_POST,
+      payload: res.data,
+    });
+    dispatch(setAlert('Post Removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: EDIT_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

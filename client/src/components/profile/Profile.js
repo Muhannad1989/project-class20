@@ -22,7 +22,7 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
         <Spinner />
       ) : (
         <Fragment>
-          <Link to="/profile" className="btn btn-light">
+          <Link to="/profiles" className="btn btn-light">
             Link to Profile
           </Link>
           {auth.isAuthenticated &&

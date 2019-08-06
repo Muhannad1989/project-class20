@@ -20,14 +20,14 @@ import AddEducation from './components/profile-forms/AddEducation';
 import store from './store';
 
 import { loadUser } from './actions/auth';
-import setAuthToken from './utils/setAuthToken';
+// import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
 // Redux
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
 const App = () => {
   // hook

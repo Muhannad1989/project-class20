@@ -16,13 +16,19 @@ import setAuthToken from '../utils/setAuthToken';
 export const loadUser = () => async dispatch => {
   // checking the token inside the header
   if (localStorage.token) {
-    setAuthToken(localStorage.token);
+    // remain the token inside the header and storage
+    // setAuthToken(localStorage.token);
+    // if (localStorage.token) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.token;
+  } else {
+    delete axios.defaults.headers.common['x-auth-token'];
+    // }
   }
   try {
     const res = await axios.get('/api/auth');
     dispatch({
       type: USER_LOADED,
-      payload: res.data, // the user self
+      payload: res.data, // the user
     });
   } catch (err) {
     dispatch({
