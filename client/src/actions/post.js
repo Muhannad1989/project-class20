@@ -30,27 +30,6 @@ export const getPosts = () => async dispatch => {
   }
 };
 
-export const editPost = newPost => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  try {
-    const res = await axios.post(`/api/posts`, newPost, config);
-    dispatch({
-      type: EDIT_POST,
-      payload: res.data,
-    });
-    dispatch(setAlert('Post Removed', 'success'));
-  } catch (err) {
-    dispatch({
-      type: EDIT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
 // Add And Remove Like
 export const addAndRemoveLike = id => async dispatch => {
   try {
