@@ -14,7 +14,6 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
-  true: false,
 };
 
 // change initial State according to different cases ('types': which is as a key between functions('action') ans cases('reducer') )
@@ -44,8 +43,7 @@ export default function(state = initialState, action) {
     case LOGOUT:
     case ACCOUNT_DELETED:
       // clean the storage
-      // stop login each time
-      // localStorage.removeItem('token');
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
